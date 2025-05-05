@@ -1,29 +1,20 @@
-<h1>New Player</h1>
+<div class="container mt-5">
+  <h1 class="mb-4"><%= "New Player" %></h1>
 
-<%= form_with model: @player, local: true do |form| %>
-  <div class="mb-3">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :role %>
-    <%= form.select :role, Player.roles.keys.map { |r| [r.humanize, r] }, {}, class: "form-select" %>
-  </div>
-
-  <h4 class="mt-4">Rankings</h4>
-  <% @player.rankings.each do |ranking| %>
+  <%= form_with(model: @player, local: true) do |form| %>
     <div class="mb-3">
-      <%= hidden_field_tag "player[rankings_attributes][][game_id]", ranking.game_id %>
-      <%= label_tag nil, ranking.game.name, class: "form-label" %>
-      <%= number_field_tag "player[rankings_attributes][][value]", ranking.value, in: 1..10, class: "form-control", required: true %>
+      <%= form.label :first_name, class: "form-label" %>
+      <%= form.text_field :first_name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :last_name, class: "form-label" %>
+      <%= form.text_field :last_name, class: "form-control" %>
+    </div>
+
+    <div class="d-flex gap-2">
+      <%= form.submit "Create Player", class: "btn btn-primary" %>
+      <%= link_to "Cancel", players_path, class: "btn btn-secondary" %>
     </div>
   <% end %>
-
-  <%= form.submit "Create Player", class: "btn btn-primary mt-3" %>
-<% end %>
+</div>
