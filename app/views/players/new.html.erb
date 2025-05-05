@@ -1,11 +1,29 @@
-<% content_for :title, "New player" %>
+<h1>New Player</h1>
 
-<h1>New player</h1>
+<%= form_with model: @player, local: true do |form| %>
+  <div class="mb-3">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, class: "form-control" %>
+  </div>
 
-<%= render "form", player: @player %>
+  <div class="mb-3">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, class: "form-control" %>
+  </div>
 
-<br>
+  <div class="mb-3">
+    <%= form.label :role %>
+    <%= form.select :role, Player.roles.keys.map { |r| [r.humanize, r] }, {}, class: "form-select" %>
+  </div>
 
-<div>
-  <%= link_to "Back to players", players_path %>
-</div>
+  <h4 class="mt-4">Rankings</h4>
+  <% @player.rankings.each do |ranking| %>
+    <div class="mb-3">
+      <%= hidden_field_tag "player[rankings_attributes][][game_id]", ranking.game_id %>
+      <%= label_tag nil, ranking.game.name, class: "form-label" %>
+      <%= number_field_tag "player[rankings_attributes][][value]", ranking.value, in: 1..10, class: "form-control", required: true %>
+    </div>
+  <% end %>
+
+  <%= form.submit "Create Player", class: "btn btn-primary mt-3" %>
+<% end %>
