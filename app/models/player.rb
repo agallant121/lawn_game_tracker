@@ -5,4 +5,6 @@ class Player < ApplicationRecord
   validates :first_name, :last_name, presence: true
 
   enum role: { player: 0, admin: 1 }
+
+  accepts_nested_attributes_for :rankings
 end
