@@ -10,9 +10,11 @@ class PlayersController < ApplicationController
   def show
   end
 
-  # GET /players/new
   def new
     @player = Player.new
+    Game.all.each do |game|
+      @player.rankings.build(game: game)
+    end
   end
 
   # GET /players/1/edit
@@ -28,6 +30,10 @@ class PlayersController < ApplicationController
         format.html { redirect_to @player, notice: "Player was successfully created." }
         format.json { render :show, status: :created, location: @player }
       else
+        Game.all.each do |game|
+          @player.rankings.build(game: game) if @player.rankings.none? { |r| r.game_id == game.id }
+        end
+
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @player.errors, status: :unprocessable_entity }
       end
@@ -60,11 +66,11 @@ class PlayersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_player
-      @player = Player.find(params.expect(:id))
+      @player = Player.find(params(:id))
     end
 
     # Only allow a list of trusted parameters through.
     def player_params
-      params.expect(player: [ :first_name, :last_name ])
+      params.require(:player).permit(:first_name, :last_name, :role, rankings_attributes: [:game_id, :value])
     end
 end
