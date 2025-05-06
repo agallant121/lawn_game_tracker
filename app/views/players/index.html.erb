@@ -7,10 +7,15 @@
   <% if @players.any? %>
     <div class="list-group">
       <% @players.each do |player| %>
-        <%= link_to "#{player.first_name} #{player.last_name}", player_path(player), class: "list-group-item list-group-item-action" %>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <%= link_to player.name, player_path(player), class: "list-group-item-action" %>
+          <%= form_with(model: player, method: :delete, data: { confirm: "Are you sure?" }, class: "inline-form") do |form| %>
+            <%= form.submit "Delete", class: "btn btn-danger btn-sm" %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   <% else %>
-    <p><%= "No players found." %></p>
+    <p class="text-center text-muted"><%= "No players yet." %></p>
   <% end %>
 </div>
