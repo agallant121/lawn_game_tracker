@@ -1,5 +1,3 @@
-require 'pry'
-
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy ]
 
