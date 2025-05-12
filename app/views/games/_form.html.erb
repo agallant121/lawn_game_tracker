@@ -4,20 +4,5 @@
     <%= form.text_field :name, class: "form-control", required: true %>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :location, class: "form-label" %>
-    <%= form.text_field :location, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :played_on, class: "form-label" %>
-    <%= form.date_select :played_on, class: "form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :winner, class: "form-label" %>
-    <%= form.text_field :winner, class: "form-control" %>
-  </div>
-
   <%= form.submit class: "btn btn-primary" %>
 <% end %>
